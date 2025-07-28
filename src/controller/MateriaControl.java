@@ -13,8 +13,8 @@ public class MateriaControl {
     private Utilidades u = new Utilidades();
     private String file_name = "data.Telecomunicaciones";
 
-    public boolean guardar_Materuas(int Number, String ciclo, String Materias, int hora,int creditos, String Abrebiatura) {
-        String data = Number + "\t"+ ciclo+"\t" + Materias + "\t" + hora + creditos+"\t"+"\t"+Abrebiatura+"\n";
+    public boolean guardar_Materuas(int Number,String ciclo,  String Materias, int hora,int creditos, String Abrebiatura) {
+        String data = Number +"\t" + Materias + "\t" + hora + creditos+"\t"+"\t"+Abrebiatura+"\n";
         try {
             u.save1(data, file_name);
             return true;

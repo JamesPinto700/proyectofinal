@@ -145,7 +145,7 @@ public class FrmMaterias_Ciclo extends javax.swing.JDialog {
         jPanel4.add(jScrollPane2);
 
         jPanel1.add(jPanel4);
-        jPanel4.setBounds(10, 160, 460, 450);
+        jPanel4.setBounds(10, 160, 480, 435);
 
         cbxciclos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbxciclos.addActionListener(new java.awt.event.ActionListener() {
@@ -315,7 +315,7 @@ public class FrmMaterias_Ciclo extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (!(jTextField1.getText().isEmpty() && jTextField3.getText().isEmpty() && jTextField4.getText().isEmpty() && jTextField5.getText().isEmpty() && txtCredito.getText().isEmpty()) || ((!(jTextField1.getText().isEmpty() || jTextField3.getText().isEmpty() || jTextField4.getText().isEmpty() || jTextField5.getText().isEmpty())))) {
-            String materianueva = (jTextField1.getText() + "\t" + "ciclo" + "\t" + jTextField3.getText() + "\t" + jTextField4.getText() + "\t" + txtCredito +  "\t" + jTextField5+ "\n");
+            String materianueva = (jTextField1.getText() +"\t"+"ciclo"+ "\t" + jTextField3.getText() + "\t" + jTextField4.getText() + "\t" + txtCredito +  "\t" + jTextField5+ "\n");
             try {
                 switch (carrera) {
                     case "Computacion":

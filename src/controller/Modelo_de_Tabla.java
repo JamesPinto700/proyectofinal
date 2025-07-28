@@ -60,7 +60,7 @@ public class Modelo_de_Tabla extends AbstractTableModel {
     public String getColumnName(int column) {
         switch (column) {
             case 0:
-                return "Numero de Ciclo";
+                return "Ciclo";
             case 1:
                 return "Tipo";
             case 2:
