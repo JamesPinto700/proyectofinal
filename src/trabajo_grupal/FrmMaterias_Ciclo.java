@@ -304,6 +304,7 @@ public class FrmMaterias_Ciclo extends javax.swing.JDialog {
                     rellenarTablaMaterias("data.IngenieriaAutomotriz", opcion);
                 case "Telecomunicaciones" ->
                     rellenarTablaMaterias("data.Telecomunicaciones", opcion);
+                
                 default ->
                     tbtMaterias.removeAll();
             }
@@ -314,50 +315,45 @@ public class FrmMaterias_Ciclo extends javax.swing.JDialog {
     }//GEN-LAST:event_cbxciclosActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if (!(jTextField1.getText().isEmpty() && jTextField3.getText().isEmpty() && jTextField4.getText().isEmpty() && jTextField5.getText().isEmpty() && txtCredito.getText().isEmpty()) || ((!(jTextField1.getText().isEmpty() || jTextField3.getText().isEmpty() || jTextField4.getText().isEmpty() || jTextField5.getText().isEmpty())))) {
-            String materianueva = (jTextField1.getText() +"\t"+"ciclo"+ "\t" + jTextField3.getText() + "\t" + jTextField4.getText() + "\t" + txtCredito +  "\t" + jTextField5+ "\n");
-            try {
-                switch (carrera) {
-                    case "Computacion":
-                        u.save(materianueva, "data.Computacion");
-                        cargarTabla("data.Computacion");
-                        JOptionPane.showMessageDialog(null, "Se ha agregado la materia con exito  ", "Exito ", JOptionPane.INFORMATION_MESSAGE);
-                        break;
-                    case "Electricidad":
-                        u.save(materianueva, "data.Electricidad");
-                        cargarTabla("data.Electricidad");
-                        JOptionPane.showMessageDialog(null, "Se ha agregado la materia con exito  ", "Exito ", JOptionPane.INFORMATION_MESSAGE);
-                        break;
-                    case "Minas":
-                        u.save(materianueva, "data.Minas");
-                        cargarTabla("data.Minas");
-                        JOptionPane.showMessageDialog(null, "Se ha agregado la materia con exito  ", "Exito ", JOptionPane.INFORMATION_MESSAGE);
-                        break;
-                    case "Electromecanica":
-                        u.save(materianueva, "data.Electromecanica");
-                        cargarTabla("data.Electromecanica");
-                        JOptionPane.showMessageDialog(null, "Se ha agregado la materia con exito  ", "Exito ", JOptionPane.INFORMATION_MESSAGE);
-                        break;
-                    case "Ingenieria Automotriz":
-                        u.save(materianueva, "data.IngenieriaAutomotriz");
-                        cargarTabla("data.IngenieriaAutomotriz");
-                        break;
-                    case "Telecomunicaciones":
-                        u.save(materianueva, "data.IngenieriaAutomotriz");
-                        cargarTabla("data.Telecomunicaciones");
-                        JOptionPane.showMessageDialog(null, "Se ha agregado la materia con exito  ", "Exito ", JOptionPane.INFORMATION_MESSAGE);
-                        break;
-                    default:
-                        tbtMaterias.removeAll();
-                        break;
-                }
-            } catch (Exception e) {
-                System.out.println("Exito");
+        String materianueva = (jTextField1.getText() + "\t" + "ciclo" + "\t" + jTextField3.getText() + "\t" + jTextField4.getText() + "\t" + txtCredito.getText() + "\t" + jTextField5.getText() + "\n");
+        try {
+            switch (carrera) {
+                case "Computacion":
+                    u.save(materianueva, "data.Computacion");
+                    cargarTabla("data.Computacion");
+                    JOptionPane.showMessageDialog(null, "Se ha agregado la materia con exito  ", "Exito ", JOptionPane.INFORMATION_MESSAGE);
+                    break;
+                case "Electricidad":
+                    u.save(materianueva, "data.Electricidad");
+                    cargarTabla("data.Electricidad");
+                    JOptionPane.showMessageDialog(null, "Se ha agregado la materia con exito  ", "Exito ", JOptionPane.INFORMATION_MESSAGE);
+                    break;
+                case "Minas":
+                    u.save(materianueva, "data.Minas");
+                    cargarTabla("data.Minas");
+                    JOptionPane.showMessageDialog(null, "Se ha agregado la materia con exito  ", "Exito ", JOptionPane.INFORMATION_MESSAGE);
+                    break;
+                case "Electromecanica":
+                    u.save(materianueva, "data.Electromecanica");
+                    cargarTabla("data.Electromecanica");
+                    JOptionPane.showMessageDialog(null, "Se ha agregado la materia con exito  ", "Exito ", JOptionPane.INFORMATION_MESSAGE);
+                    break;
+                case "Ingenieria Automotriz":
+                    u.save(materianueva, "data.IngenieriaAutomotriz");
+                    cargarTabla("data.IngenieriaAutomotriz");
+                    break;
+                case "Telecomunicaciones":
+                    u.save(materianueva, "data.IngenieriaAutomotriz");
+                    cargarTabla("data.Telecomunicaciones");
+                    JOptionPane.showMessageDialog(null, "Se ha agregado la materia con exito  ", "Exito ", JOptionPane.INFORMATION_MESSAGE);
+                    break;
+                default:
+                    tbtMaterias.removeAll();
+                    break;
             }
-        } else if ((jTextField1.getText().isEmpty() && jTextField3.getText().isEmpty() && jTextField4.getText().isEmpty() && jTextField5.getText().isEmpty() && txtCredito.getText().isEmpty())) {
-            JOptionPane.showMessageDialog(null, "Por favor ingrese los datos reqieridos para realizar el guardado  ", "Error ", JOptionPane.ERROR_MESSAGE);
-        } else if ((jTextField1.getText().isEmpty() || jTextField3.getText().isEmpty() || jTextField4.getText().isEmpty() || jTextField5.getText().isEmpty())) {
-            JOptionPane.showMessageDialog(null, "Faltan Datos  ", "Error ", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            System.out.println("Exito");
+
         }
 
         // TODO add your handling code here:

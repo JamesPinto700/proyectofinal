@@ -51,7 +51,7 @@ public class Cargar_Archivar {
 
                     if (!aux.equals(numCiclo)) {
                         aux = numCiclo;
-                        System.out.println(numCiclo + " +");
+                        System.out.println(numCiclo + " + ");
                         conservador[i] = numCiclo;
                         i++;
                     }
