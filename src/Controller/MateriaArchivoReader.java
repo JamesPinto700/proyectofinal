@@ -14,36 +14,55 @@ import java.util.List;
  */
 public class MateriaArchivoReader {
 
-    public static List<Materia> leerMateriasDesdeArchivo(String rutaArchivo) {
-        List<Materia> materias = new ArrayList<>();
+    private String path = "data";
 
-        try (BufferedReader br = new BufferedReader(new FileReader(rutaArchivo))) {
+    public List<Materia> leerMateriasDesdeArchivo(String nombreArchivo) {
+        List<Materia> materias = new ArrayList<>();
+        File archivo = new File(path, nombreArchivo);
+
+        if (!archivo.exists()) {
+            System.out.println("Archivo no encontrado: " + archivo.getAbsolutePath());
+            return materias;
+        }
+
+        try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
             String linea;
             while ((linea = br.readLine()) != null) {
-                String[] campos = linea.split("\t"); // separa por tabulación
-                if (campos.length >= 5) {
-                    try {
-                        int ciclo = Integer.parseInt(campos[0].trim());
-                        String nombre = campos[1].trim();
-                        int horas = Integer.parseInt(campos[2].trim());
-                        int creditos = Integer.parseInt(campos[3].trim());
-                        String sigla = campos[4].trim();
+                linea = linea.trim();
+                if (linea.isEmpty()) continue;
 
-                        materias.add(new Materia(ciclo, nombre, horas, creditos, sigla));
-                    } catch (NumberFormatException e) {
-                        System.err.println("Error numérico en línea: " + linea);
+                String[] tokens = linea.split("\\s+");
+                if (tokens.length < 6) {
+                    System.out.println("Línea inválida, menos de 6 tokens: " + linea);
+                    continue;
+                }
+
+                try {
+                    int ciclo = Integer.parseInt(tokens[0]);
+                    String tipo = tokens[1];
+
+                    int horas = Integer.parseInt(tokens[tokens.length - 3]);
+                    int creditos = Integer.parseInt(tokens[tokens.length - 2]);
+                    String sigla = tokens[tokens.length - 1];
+
+                    StringBuilder nombreBuilder = new StringBuilder();
+                    for (int i = 2; i <= tokens.length - 4; i++) {
+                        nombreBuilder.append(tokens[i]);
+                        if (i < tokens.length - 4) nombreBuilder.append(" ");
                     }
-                } else {
-                    System.err.println("Línea inválida (menos de 5 campos): " + linea);
+                    String nombre = nombreBuilder.toString();
+
+                    Materia materia = new Materia(ciclo, tipo, nombre, horas, creditos, sigla);
+                    materias.add(materia);
+                } catch (NumberFormatException e) {
+                    System.out.println("Error parseando línea: " + linea);
                 }
             }
         } catch (IOException e) {
-            System.err.println("Error leyendo archivo: " + rutaArchivo);
             e.printStackTrace();
         }
 
+        System.out.println("Materias leídas: " + materias.size());
         return materias;
     }
 }
-
-

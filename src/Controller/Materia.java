@@ -9,26 +9,45 @@ package Controller;
  * @author LOQ78
  */
 public class Materia {
-    private Integer ciclo;
+    private int ciclo;
+    private String tipo;    // nuevo campo
     private String nombre;
-    private Integer horas;
-    private Integer creditos;
+    private int horas;
+    private int creditos;
     private String sigla;
 
-    public Materia(Integer ciclo, String nombre, Integer horas, Integer creditos, String sigla) {
+    public Materia(int ciclo, String tipo, String nombre, int horas, int creditos, String sigla) {
         this.ciclo = ciclo;
+        this.tipo = tipo;
         this.nombre = nombre;
         this.horas = horas;
         this.creditos = creditos;
         this.sigla = sigla;
     }
 
-    // Getters
-    public Integer getCiclo() { return ciclo; }
-    public String getNombre() { return nombre; }
-    public Integer getHoras() { return horas; }
-    public Integer getCreditos() { return creditos; }
-    public String getSigla() { return sigla; }
+    public int getCiclo() {
+        return ciclo;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public int getHoras() {
+        return horas;
+    }
+
+    public int getCreditos() {
+        return creditos;
+    }
+
+    public String getSigla() {
+        return sigla;
+    }
 }
 
 

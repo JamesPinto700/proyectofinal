@@ -5,7 +5,7 @@
 package Views;
 
 import Controller.Materia;
-import Controller.ModeloTablaMaterias;
+import Controller.ModeloDeTabla;
 import Controller.Utiles;
 import Controller.MateriaArchivoReader;
 
@@ -23,7 +23,6 @@ public class CreditosMaterias extends javax.swing.JDialog {
 
     private List<Materia> materiasMostradas;
 
-
     /**
      * Creates new form CreditosMaterias
      */
@@ -31,7 +30,7 @@ public class CreditosMaterias extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         jTextField1.setText("20");
-        
+
         jComboBox1.removeAllItems();
         jComboBox1.addItem("Computación");
         jComboBox1.addItem("Telecomunicaciones");
@@ -52,7 +51,7 @@ public class CreditosMaterias extends javax.swing.JDialog {
         jTable1.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
         // Inicializar tabla vacía
-        jTable1.setModel(new ModeloTablaMaterias(new ArrayList<>()));
+        jTable1.setModel(new ModeloDeTabla(new ArrayList<>()));
 
         materiasMostradas = new ArrayList<>();
     }
@@ -60,17 +59,17 @@ public class CreditosMaterias extends javax.swing.JDialog {
     private String obtenerRutaArchivo(String carrera) {
         switch (carrera) {
             case "Computación":
-                return "materias_computacion.txt";
+                return "data.computacion";
             case "Telecomunicaciones":
-                return "materias_telecomunicaciones.txt";
+                return "data.Telecomunicaciones";
             case "Electricidad":
-                return "materias_electricidad.txt";
+                return "data.Electricidad";
             case "Minas":
-                return "materias_minas.txt";
+                return "data.Minas";
             case "Electromecanica":
-                return "materias_electromecanica.txt";
+                return "data.Electromecanica";
             case "Automotriz":
-                return "materias_automotriz.txt";
+                return "data.IngenieriaAutomotriz";
             default:
                 return null;
         }
@@ -78,41 +77,46 @@ public class CreditosMaterias extends javax.swing.JDialog {
 
     private void cargarMaterias() {
         String carrera = (String) jComboBox1.getSelectedItem();
-        Object seleccionado = jComboBox2.getSelectedItem();
+        String cicloSeleccionado = (String) jComboBox2.getSelectedItem();
 
-        if (seleccionado == null) {
-            return;  // Sin selección
-        }
-        String textoCiclo = seleccionado.toString();
-        if (textoCiclo.equals("Seleccione un ciclo")) {
+        if (cicloSeleccionado == null || cicloSeleccionado.equals("Seleccione un ciclo")) {
+            // Limpiar tabla y totales si no hay ciclo válido
+            jTable1.setModel(new ModeloDeTabla(new ArrayList<>()));
             limpiarTotales();
-            jTable1.setModel(new ModeloTablaMaterias(new ArrayList<>()));
             return;
         }
 
         int ciclo;
         try {
-            ciclo = Integer.parseInt(textoCiclo);
+            ciclo = Integer.parseInt(cicloSeleccionado);
         } catch (NumberFormatException e) {
-
+            limpiarTotales();
+            jTable1.setModel(new ModeloDeTabla(new ArrayList<>()));
             return;
         }
 
         String rutaArchivo = obtenerRutaArchivo(carrera);
         if (rutaArchivo == null) {
-            JOptionPane.showMessageDialog(this, "No hay archivo para la carrera seleccionada", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Seleccione una carrera válida.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        List<Materia> listaMaterias = MateriaArchivoReader.leerMateriasDesdeArchivo(rutaArchivo);
-        List<Materia> filtradoPorCiclo = listaMaterias.stream()
-                .filter(m -> m.getCiclo() == ciclo)
-                .collect(Collectors.toList());
+        MateriaArchivoReader lector = new MateriaArchivoReader();
+        List<Materia> listaMaterias = lector.leerMateriasDesdeArchivo(rutaArchivo);
 
-        ModeloTablaMaterias modelo = new ModeloTablaMaterias(filtradoPorCiclo);
+        // Filtrar por ciclo
+        List<Materia> materiasFiltradas = new ArrayList<>();
+        for (Materia m : listaMaterias) {
+            if (m.getCiclo() == ciclo) {
+                materiasFiltradas.add(m);
+            }
+        }
+
+        // Crear y asignar modelo a tabla
+        ModeloDeTabla modelo = new ModeloDeTabla(materiasFiltradas);
         jTable1.setModel(modelo);
 
-        materiasMostradas = filtradoPorCiclo;
+        materiasMostradas = materiasFiltradas;  // lista para otras operaciones
         limpiarTotales();
     }
 
@@ -149,6 +153,8 @@ public class CreditosMaterias extends javax.swing.JDialog {
         jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(255, 153, 153));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -216,9 +222,9 @@ public class CreditosMaterias extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -227,11 +233,11 @@ public class CreditosMaterias extends javax.swing.JDialog {
                                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 113, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(30, 30, 30))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(174, 174, 174)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -275,11 +281,9 @@ public class CreditosMaterias extends javax.swing.JDialog {
                     .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2)
                     .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
+                        .addGap(14, 14, 14)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -290,8 +294,11 @@ public class CreditosMaterias extends javax.swing.JDialog {
                             .addComponent(jLabel5)
                             .addComponent(jLabel7))
                         .addGap(43, 43, 43)
-                        .addComponent(jButton3)))
-                .addGap(15, 15, 15))
+                        .addComponent(jButton3))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(14, 14, 14))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -342,7 +349,7 @@ public class CreditosMaterias extends javax.swing.JDialog {
             return;
         }
 
-        ModeloTablaMaterias modelo = (ModeloTablaMaterias) jTable1.getModel();
+        ModeloDeTabla modelo = (ModeloDeTabla) jTable1.getModel();
         List<Materia> seleccionadas = new ArrayList<>();
 
         for (int fila : filasSeleccionadas) {
